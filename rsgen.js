@@ -120,14 +120,14 @@ else{
 	pattern = process.argv[3].toUpperCase();
 	bestSecret = passphrase;
 
+	console.log("wallet IP : "+ip);
+	console.log("wallet Port : "+port);
+	console.log("using passprase prefix : "+passphrase);
+	console.log("searching for pattern : BURST-"+pattern);
+
 	arr = permutation(letters.substring(0,letterRange));
 	searchPattern();
 }
-
-console.log("wallet IP : "+ip);
-console.log("wallet Port : "+port);
-console.log("using passprase prefix : "+passphrase);
-console.log("searching for pattern : BURST-"+pattern);
 
 process.on('uncaughtException', function (exception) {
 	arr = permutation(letters.substring(0,letterRange));
