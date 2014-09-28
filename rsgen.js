@@ -50,7 +50,7 @@ function search(passphrase, done){
 		rsStr = rsStr.replace(/-/g,"");
 		for(var i=0 ; i<rsStr.length ; i++){
 			if(pattern[i] == rsStr[i]){
-				if(bestMatched < i){
+				if(bestMatched <= i && i>0){
 					bestMatched = i;
 					bestAddr = rs;
 					bestSecret = passphrase;
@@ -81,8 +81,8 @@ function permutation(str) {
 var arr = [];
 var ndx = 0;
 function searchPattern(){
-	search(passphrase+arr[ndx], function(){
-		if(bestMatched < pattern.length){
+	if(bestMatched < pattern.length){
+		search(passphrase+arr[ndx], function(){
 			if(ndx+1 < arr.length){
 				ndx++;
 				process.nextTick(function(){
@@ -103,12 +103,18 @@ function searchPattern(){
 					console.log("all permutation tried");
 				}
 			}
-		}
-		else{
-			process.exit();
-		}
-	})
+		});
+	}
+	else{
+		console.log("best passphrase "+bestSecret+" -> "+bestAddr);
+		process.exit();
+	}
 }
+
+console.log("Burst RS-Address Vanity Generator");
+console.log("https://github.com/uraymeiviar/burst-rsvanity-gen");
+console.log("Please donate to : BURST-8E8K-WQ2F-ZDZ5-FQWHX");
+console.log(" ");
 
 if(process.argv.length < 4){
 	console.log("usage : node rsgen.js [Passphrase-Prefix] [pattern] <Burst-Wallet-IP> <Burst-Wallet-Port> ");
@@ -128,6 +134,7 @@ else{
 	console.log("using passprase prefix : "+passphrase);
 	console.log("searching for pattern : BURST-"+pattern);
 
+	pattern = pattern.replace(/-/g,"");
 	arr = permutation(letters.substring(0,letterRange));
 	searchPattern();
 }
