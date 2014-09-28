@@ -44,25 +44,6 @@ var bestAddr = "BURST";
 var bestSecret = "";
 var bestMatched = 0;
 
-if(process.argv.length < 4){
-	console.log("usage : node rsgen.js [Passphrase-Prefix] [pattern] <Burst-Wallet-IP> <Burst-Wallet-Port> ");
-	console.log(" ");
-	console.log("[ ] = mandatory , < > = optional");
-	console.log("default wallet IP is 127.0.0.1, and default port is 8125 if you dont specify it");
-	console.log("pattern is the string you want to look for in BURST-XXXX-XXXX, pattern = XXXX...");
-	console.log("generator will add letter after passphrase-prefix");
-}
-else{
-	passphrase = process.argv[2];
-	pattern = process.argv[3].toUpperCase();
-	bestSecret = passphrase;
-}
-
-console.log("wallet IP : "+ip);
-console.log("wallet Port : "+port);
-console.log("using passprase prefix : "+passphrase);
-console.log("searching for pattern : BURST-"+pattern);
-
 function search(passphrase, done){
 	getAccountRS(passphrase, function(rs){
 		var rsStr = rs.replace("BURST-","");
@@ -126,8 +107,27 @@ function searchPattern(){
 	})
 }
 
-arr = permutation(letters.substring(0,letterRange));
-searchPattern();
+if(process.argv.length < 4){
+	console.log("usage : node rsgen.js [Passphrase-Prefix] [pattern] <Burst-Wallet-IP> <Burst-Wallet-Port> ");
+	console.log(" ");
+	console.log("[ ] = mandatory , < > = optional");
+	console.log("default wallet IP is 127.0.0.1, and default port is 8125 if you dont specify it");
+	console.log("pattern is the string you want to look for in BURST-XXXX-XXXX, pattern = XXXX...");
+	console.log("generator will add letter after passphrase-prefix");
+}
+else{
+	passphrase = process.argv[2];
+	pattern = process.argv[3].toUpperCase();
+	bestSecret = passphrase;
+
+	arr = permutation(letters.substring(0,letterRange));
+	searchPattern();
+}
+
+console.log("wallet IP : "+ip);
+console.log("wallet Port : "+port);
+console.log("using passprase prefix : "+passphrase);
+console.log("searching for pattern : BURST-"+pattern);
 
 process.on('uncaughtException', function (exception) {
 	arr = permutation(letters.substring(0,letterRange));
