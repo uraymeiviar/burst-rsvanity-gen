@@ -104,6 +104,9 @@ function searchPattern(){
 				}
 			}
 		}
+		else{
+			process.exit();
+		}
 	})
 }
 
